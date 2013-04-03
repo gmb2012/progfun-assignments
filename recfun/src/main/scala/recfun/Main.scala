@@ -67,19 +67,22 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-    def countChange_r(ways: Int, money: Int, coins: List[Int]): Int = {
-      coins match {
-        case List() => ways
-        case x :: xs => {
-          if (money < x) {
-            countChange_r(ways, money, xs)
-          } else {
-            countChange_r(ways + 1, money - x, xs) +
-            countChange_r(ways + 1, money - x, x +: xs)
+    def countChange_r(money: Int, coins: List[Int]): Int = {
+      money match {
+        case 0 => 1
+        case _ => {
+          coins match {
+            case List() => 0
+            case x :: xs if money < x => countChange_r(money, xs)
+            case x :: xs if money == x => 1
+            case x :: xs => {
+                countChange_r(money, xs) +
+                countChange_r(money - x, x +: xs)
+            }
           }
         }
       }
     }
-    countChange_r(0, money, coins)
+    countChange_r(money, coins.sortBy(_.toInt))
   }
 }
