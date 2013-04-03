@@ -15,13 +15,13 @@ object Main {
    * Exercise 1
    */
   def pascal(c: Int, r: Int): Int = (c, r) match {
-    case (_, 0) => return 1
-    case (_, 1) => return 1
-    case (0, _) => return 1
+    case (_, 0) => 1
+    case (_, 1) => 1
+    case (0, _) => 1
     case (x, y) => if (x == y) {
-      return 1
+      1
     } else {
-      return pascal(x-1,y-1) + pascal(x,y-1)
+      pascal(x-1,y-1) + pascal(x,y-1)
     }
   }
 
@@ -40,12 +40,16 @@ object Main {
                   balance_r('(' +: parens, tail)
             }
             case ')' => {
-              if (parens.isEmpty) return false
-              parens.head match {
-                case '(' => 
-                    balance_r(parens.tail, tail)
-                case _ => 
-                  false
+              parens.isEmpty match {
+                case true => false
+                case false => {
+                  parens.head match {
+                    case '(' => 
+                        balance_r(parens.tail, tail)
+                    case _ => 
+                      false
+                  }
+                }
               }
             }
             case _ => {
