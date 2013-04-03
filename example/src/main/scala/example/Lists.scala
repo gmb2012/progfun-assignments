@@ -24,7 +24,11 @@ object Lists {
    * @return The sum of all elements in `xs`
    */
   def sum(xs: List[Int]): Int = {
-    return xs.reduceLeft(_ + _)
+    def sum_r(n : Int, xs: List[Int]): Int = xs match {
+      case x :: xs => sum_r(n + x, xs)
+      case List() => return n
+    }
+    sum_r(0, xs)
   }
 
   /**
@@ -41,6 +45,14 @@ object Lists {
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
   def max(xs: List[Int]): Int = {
-    return xs.max
+    def max_r(n: Int, xs: List[Int]): Int = xs match {
+      case x :: xs => if (n < x) {
+        return max_r(x, xs)
+      } else {
+        return max_r(n, xs)
+      }
+      case List() => return n
+    }
+    max_r(0, xs)
   }
 }
