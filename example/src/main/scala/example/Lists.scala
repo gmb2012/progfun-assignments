@@ -26,7 +26,7 @@ object Lists {
   def sum(xs: List[Int]): Int = {
     def sum_r(n : Int, xs: List[Int]): Int = xs match {
       case x :: xs => sum_r(n + x, xs)
-      case List() => return n
+      case List() => n
     }
     sum_r(0, xs)
   }
@@ -45,14 +45,16 @@ object Lists {
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
   def max(xs: List[Int]): Int = {
+    import java.util.NoSuchElementException
     def max_r(n: Int, xs: List[Int]): Int = xs match {
       case x :: xs => if (n < x) {
-        return max_r(x, xs)
+        max_r(x, xs)
       } else {
-        return max_r(n, xs)
+        max_r(n, xs)
       }
-      case List() => return n
+      case List() => n
     }
+    if (xs.isEmpty) throw new java.util.NoSuchElementException()
     max_r(0, xs)
   }
 }
