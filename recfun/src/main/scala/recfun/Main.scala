@@ -73,7 +73,7 @@ object Main {
         case _ => {
           coins match {
             case List() => 0
-            case x :: xs if money < x => countChange_r(money, xs)
+            case x :: xs if money < x => 0
             case x :: xs => {
                 countChange_r(money, xs) +
                 countChange_r(money - x, x +: xs)
@@ -82,6 +82,6 @@ object Main {
         }
       }
     }
-    countChange_r(money, coins.sortBy(_.toInt))
+    countChange_r(money, coins.sorted)
   }
 }
