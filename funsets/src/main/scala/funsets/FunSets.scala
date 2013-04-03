@@ -21,7 +21,7 @@ object FunSets {
    * Returns the set of the one given element.
    */
   def singletonSet(elem: Int): Set = {
-    Set()
+    Set(elem)
   }
 
   /**
@@ -29,7 +29,7 @@ object FunSets {
    * the sets of all elements that are in either `s` or `t`.
    */
   def union(s: Set, t: Set): Set = {
-    Set()
+    (i: Int) => s(i) || t(i)
   }
 
   /**
