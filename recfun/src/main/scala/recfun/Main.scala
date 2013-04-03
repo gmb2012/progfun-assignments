@@ -28,6 +28,7 @@ object Main {
   /**
    * Exercise 2
    */
+  // https://gist.github.com/anonymous/5306062
   def balance(chars: List[Char]): Boolean = {
     def balance_r(parens: List[Char], chars: List[Char]): Boolean = {
       chars.isEmpty match {
