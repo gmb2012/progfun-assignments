@@ -130,10 +130,26 @@ class FunSetSuite extends FunSuite {
 
   test("filter test") {
     new TestSets {
-      val s = filter(s1, 2>_)
+      val s = filter(s1, _ < 2)
       assert(contains(s, 1), "Filter 1")
       assert(!contains(s, 2), "Filter 2")
       assert(!contains(s, 3), "Filter 3")
+    }
+  }
+
+  test("forall test") {
+    new TestSets {
+      assert(forall(s1, _ < 2), "Forall 1")
+      assert(!forall(s2, _ < 2), "Forall 2")
+      assert(!forall(s3, _ < 2), "Forall 3")
+    }
+  }
+
+  test("exists test") {
+    new TestSets {
+      assert(exists(s1, _ < 3), "Exists 1")
+      assert(exists(s2, _ < 3), "Exists 2")
+      assert(!exists(s3, _ < 3), "Exists 3")
     }
   }
 }
