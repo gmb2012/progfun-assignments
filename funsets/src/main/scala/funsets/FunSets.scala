@@ -37,7 +37,7 @@ object FunSets {
    * the set of all elements that are both in `s` and `t`.
    */
   def intersect(s: Set, t: Set): Set = {
-    Set()
+    (i: Int) => s(i) && t(i)
   }
 
   /**
@@ -45,14 +45,14 @@ object FunSets {
    * the set of all elements of `s` that are not in `t`.
    */
   def diff(s: Set, t: Set): Set = {
-    Set()
+    (i: Int) => (s(i) || t(i)) != (s(i) && t(i))
   }
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
   def filter(s: Set, p: Int => Boolean): Set = {
-    Set()
+    (i: Int) => p(i) && s(i)
   }
 
   /**
