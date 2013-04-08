@@ -152,4 +152,67 @@ class FunSetSuite extends FunSuite {
       assert(!exists(s3, _ < 3), "Exists 3")
     }
   }
+
+
+  test("diff of {1,3,4,5,7,1000} and {1,2,3,4}") {
+    val a1 = union(Set(1), Set(3))
+    val a2 = union(Set(4), Set(5))
+    val a3 = union(Set(7), Set(1000))
+    val a4 = union(a1, a2)
+    val src = union(a3, a4)
+    val b1 = union(Set(1), Set(2))
+    val b2 = union(Set(3), Set(4))
+    val dest = union(b1, b2)
+    // printSet(src)
+    // printSet(dest)
+    val result = diff(src, dest)
+    // printSet(result)
+    assert(result(2))
+    assert(result(5))
+    assert(result(7))
+    assert(result(1000))
+  }
+
+  test("diff of {1,2,3,4} and {-1000,0}") {
+    val a1 = union(Set(1), Set(2))
+    val a2 = union(Set(3), Set(4))
+    val src = union(a1, a2)
+    val dest = union(Set(-1000), Set(0))
+    val result = diff(src, dest)
+    assert(result(-1000))
+    assert(result(0))
+    assert(result(1))
+    assert(result(2))
+    assert(result(3))
+    assert(result(4))
+  }
+
+  test("forall: {1,3,4,5,7,1000} _ < 5") {
+    val a1 = union(Set(1), Set(3))
+    val a2 = union(Set(4), Set(5))
+    val a3 = union(Set(7), Set(1000))
+    val a4 = union(a1, a2)
+    val src = union(a3, a4)
+    assert(!forall(src, _ < 5))
+  }
+
+  test("exists: given {1,3,4,5,7,1000} 2 shouldn't exist") {
+    val a1 = union(Set(1), Set(3))
+    val a2 = union(Set(4), Set(5))
+    val a3 = union(Set(7), Set(1000))
+    val a4 = union(a1, a2)
+    val src = union(a3, a4)
+    assert(!exists(src, _ == 2))
+  }
+
+  test("map: {1,3,4,5,7,1000}, _ + 1") {
+    val a1 = union(Set(1), Set(3))
+    val a2 = union(Set(4), Set(5))
+    val a3 = union(Set(7), Set(1000))
+    val a4 = union(a1, a2)
+    val src = union(a3, a4)
+    val result = map(src, _ + 1)
+    // printSet(src)
+    // printSet(result)
+  }
 }
