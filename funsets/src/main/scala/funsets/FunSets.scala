@@ -45,7 +45,7 @@ object FunSets {
    * the set of all elements of `s` that are not in `t`.
    */
   def diff(s: Set, t: Set): Set = {
-    (i: Int) => s(i) && !t(i)
+    (i: Int) => (!s(i) && t(i)) || (s(i) && !t(i))
   }
 
   /**
@@ -93,7 +93,12 @@ object FunSets {
    * Returns a set transformed by applying `f` to each element of `s`.
    */
   def map(s: Set, f: Int => Int): Set = {
-    (i: Int) => s(f(i))
+    def iter(a: Int): Set = {
+      if (bound < a) Set()
+      else if (s(a)) union(iter(a+1), singletonSet(f(a)))
+      else iter(a+1)
+    }
+    iter(-bound)
   }
 
   /**

@@ -123,7 +123,7 @@ class FunSetSuite extends FunSuite {
     new TestSets {
       val s = diff(s1, s2)
       assert(contains(s, 1), "Diff 1")
-      assert(!contains(s, 2), "Diff 2")
+      assert(contains(s, 2), "Diff 2")
       assert(!contains(s, 3), "Diff 3")
     }
   }
@@ -209,7 +209,6 @@ class FunSetSuite extends FunSuite {
     val a4 = union(a1, a2)
     val src = union(a3, a4)
     val result = map(src, _ + 1)
-    // printSet(src)
     printSet(result)
   }
 
@@ -219,7 +218,5 @@ class FunSetSuite extends FunSuite {
     val a3 = union(Set(7), Set(1000))
     val a4 = union(a1, a2)
     val src = union(a3, a4)
-    printSet(src)
-    printSet(map(src, _ * 2))
   }
 }
