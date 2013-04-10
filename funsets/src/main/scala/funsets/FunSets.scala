@@ -45,7 +45,7 @@ object FunSets {
    * the set of all elements of `s` that are not in `t`.
    */
   def diff(s: Set, t: Set): Set = {
-    (i: Int) => (!s(i) && t(i)) || (s(i) && !t(i))
+    (i: Int) => s(i) && !t(i)
   }
 
   /**

@@ -123,7 +123,7 @@ class FunSetSuite extends FunSuite {
     new TestSets {
       val s = diff(s1, s2)
       assert(contains(s, 1), "Diff 1")
-      assert(contains(s, 2), "Diff 2")
+      assert(!contains(s, 2), "Diff 2")
       assert(!contains(s, 3), "Diff 3")
     }
   }
@@ -166,7 +166,6 @@ class FunSetSuite extends FunSuite {
     // printSet(src)
     // printSet(dest)
     val result = diff(src, dest)
-    // printSet(result)
     assert(result(5))
     assert(result(7))
     assert(result(1000))
@@ -209,7 +208,6 @@ class FunSetSuite extends FunSuite {
     val a4 = union(a1, a2)
     val src = union(a3, a4)
     val result = map(src, _ + 1)
-    printSet(result)
   }
 
   test("forall & map: doubling numbers") {
