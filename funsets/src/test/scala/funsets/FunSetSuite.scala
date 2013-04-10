@@ -201,6 +201,13 @@ class FunSetSuite extends FunSuite {
     assert(!exists(src, _ == 2))
   }
 
+  test("exists: given {1,2,3,4} 2 should exist") {
+    val a1 = union(Set(1), Set(2))
+    val a2 = union(Set(3), Set(4))
+    val src = union(a1, a2)
+    assert(exists(src, _ == 2))
+  }
+
   test("map: {1,3,4,5,7,1000}, _ + 1") {
     val a1 = union(Set(1), Set(3))
     val a2 = union(Set(4), Set(5))

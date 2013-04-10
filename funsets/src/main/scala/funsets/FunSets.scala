@@ -81,7 +81,7 @@ object FunSets {
   def exists(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
       if (bound < a) false
-      else if (forall(s, p)) true
+      else if (s(a) && forall(Set(a), p)) true
       else iter(a+1)
     }
     iter(-bound)
