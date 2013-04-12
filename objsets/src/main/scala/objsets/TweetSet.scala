@@ -42,9 +42,7 @@ abstract class TweetSet {
    * Question: Can we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def filter(p: Tweet => Boolean): TweetSet = {
-    filterAcc(p, this)
-  }
+  def filter(p: Tweet => Boolean): TweetSet
 
   /**
    * This is a helper method for `filter` that propagetes the accumulated tweets.
@@ -111,12 +109,16 @@ abstract class TweetSet {
 }
 
 class Empty extends TweetSet {
+  def filter(p: Tweet => Boolean): TweetSet = {
+    new Empty
+  }
+
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    return this
+    acc
   }
 
   def union(that: TweetSet): TweetSet = {
-    return this
+    that
   }
 
   def descendingByRetweet: TweetList = {
@@ -140,17 +142,43 @@ class Empty extends TweetSet {
   def foreach(f: Tweet => Unit): Unit = ()
 }
 
-class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
+class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends TweetSet {
+  def filter(p: Tweet => Boolean): TweetSet = {
+    filterAcc(p, new Empty)
+  }
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    if (p(this.elem)) acc.incl(this.elem)
-    val left = this.left
-    val right = this.right
-    acc.union(filterAcc(p, left)).union(filterAcc(p, right))
+    if (p(elem)) {
+      val s = acc.incl(elem)
+      val l = left.filterAcc(p, s)
+      val r = right.filterAcc(p, s)
+      l.union(r)
+    } else {
+      val l = left.filterAcc(p, acc)
+      val r = right.filterAcc(p, acc)
+      l.union(r)
+    }
   }
 
   def union(that: TweetSet): TweetSet = {
-    return this
+    that match {
+      case e: Empty => this
+      case e: NonEmpty => {
+        if (e.elem.text == elem.text) {
+          val l = left.union(e.left)
+          val r = right.union(e.right)
+          union(l).union(r)
+        } else if(e.elem.text < elem.text) {
+          val l = left.union(e.left)
+          val r = right.union(e.right)
+          new NonEmpty(e.elem, l.incl(elem), r)
+        } else {
+          val l = left.union(e.left)
+          val r = right.union(e.right)
+          new NonEmpty(elem, l.incl(e.elem), r)
+        } 
+      }
+    }
   }
 
   def descendingByRetweet: TweetList = {
