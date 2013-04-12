@@ -121,12 +121,12 @@ class Empty extends TweetSet {
     that
   }
 
-  def descendingByRetweet: TweetList = {
-    Nil
+  def mostRetweeted: Tweet = {
+    throw new java.util.NoSuchElementException()
   }
 
-  def mostRetweeted: Tweet = {
-    new Tweet("user", "text", 10)
+  def descendingByRetweet: TweetList = {
+    throw new java.util.NoSuchElementException()
   }
 
   /**
@@ -181,12 +181,12 @@ class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends
     }
   }
 
-  def descendingByRetweet: TweetList = {
-    Nil
-  }
-
   def mostRetweeted: Tweet = {
     new Tweet("user", "text", 10)
+  }
+
+  def descendingByRetweet: TweetList = {
+    Nil
   }
 
   /**
