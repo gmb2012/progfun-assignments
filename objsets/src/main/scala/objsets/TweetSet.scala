@@ -2,6 +2,7 @@ package objsets
 
 import common._
 import TweetReader._
+import java.util
 
 /**
  * A class to represent tweets.
@@ -79,7 +80,6 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
   def descendingByRetweet: TweetList
-
 
   /**
    * The following methods are already implemented
@@ -203,7 +203,8 @@ class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends
   }
 
   def descendingByRetweet: TweetList = {
-    Nil
+    val tweet = mostRetweeted
+    new Cons(tweet, remove(tweet).descendingByRetweet)
   }
 
   /**
@@ -259,14 +260,22 @@ object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
-  lazy val googleTweets: TweetSet = ???
+  lazy val googleTweets: TweetSet = {
+    def isGoogleTweet(tweet: Tweet): Boolean = {
+      tweet.text.contains("android")
+    }
+    val allTweets = TweetReader.allTweets
+    allTweets.filter(isGoogleTweet)
+  }
   lazy val appleTweets: TweetSet = ???
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
    */
-  lazy val trending: TweetList = ???
+  lazy val trending: TweetList = {
+    googleTweets.descendingByRetweet
+  }
 }
 
 object Main extends App {
