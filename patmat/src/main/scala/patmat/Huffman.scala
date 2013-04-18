@@ -77,7 +77,19 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def timesMap(chars: List[Char], m: Map[Char,Int]): Map[Char, Int] = {
+      if (chars.isEmpty) {
+        m
+      } else {
+        val n = m.getOrElse(chars.head, 0) + 1
+        timesMap(chars.tail, m + (chars.head -> n))
+      }
+    }
+    var times = List.empty[(Char,Int)]
+    timesMap(chars, Map.empty[Char, Int]).map { pair => times = (pair._1, pair._2) :: times}
+    times
+  }
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
